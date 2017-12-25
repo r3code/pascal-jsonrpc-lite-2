@@ -21,7 +21,7 @@ SuperObject JSON parsing library https://github.com/hgourvest/superobject
 2. Extract.
 3. Add `ujsonrpc2.pas` to your project or add path to `ujsonrpc2.pas` to Lib Path.
 ```pascal
-uses ujsonrpc;
+uses ujsonrpc2;
 ```
 
 
