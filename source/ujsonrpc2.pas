@@ -15,12 +15,6 @@ uses
   superobject;
 
 type
-  TJsonRpcRequestObject = class;
-  TJsonRpcNotificationObject = class;
-  TJsonRpcSuccessObject = class;
-  TJsonRpcErrorObject = class;
-  TJsonRpcError = class;
-
   IJsonRpcMessage = interface
     ['{E9536C8C-5789-4ED1-BAEB-331E6B4CE70A}']
     function AsJSON(indent: boolean = false; escape: boolean = true): string;
@@ -51,6 +45,11 @@ type
     property Data: ISuperObject read GetData;
   end;
 
+  TJsonRpcRequestObject = class;
+  TJsonRpcNotificationObject = class;
+  TJsonRpcSuccessObject = class;
+  TJsonRpcErrorObject = class;
+  TJsonRpcError = class;
 
   { TJsonRpcMessage }
 
