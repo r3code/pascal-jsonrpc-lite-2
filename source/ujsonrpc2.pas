@@ -830,7 +830,7 @@ function TJsonRpcNotificationObject.AsJsonObject: ISuperObject;
 begin
   Result := SO();
   Result.S[FIELD_METHOD] := FMethod;
-  if Assigned(FParams) then;
+  if Assigned(FParams) then
     Result.O[FIELD_PARAMS] := FParams.Clone;
 end;
 
