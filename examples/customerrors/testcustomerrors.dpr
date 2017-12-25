@@ -1,6 +1,6 @@
 //
 // Author: Dmitriy S. Sinyavskiy, 2016
-// 
+//
 
 //{$DEFINE DUNIT_CONSOLE_MODE}
 
@@ -20,14 +20,14 @@ uses
   ujsonrpc2 in '..\..\source\ujsonrpc2.pas';
 
 {$IFDEF DUNIT_CONSOLE_MODE}
-  {$APPTYPE CONSOLE}
+{$APPTYPE CONSOLE}
 {$ELSE}
-  {$R *.RES}
+{$R *.RES}
 {$ENDIF}
 
 begin
 {$IFDEF DUNIT_CONSOLE_MODE}
-  if not FindCmdLineSwitch('Graphic', ['-','/'], True) then
+  if not FindCmdLineSwitch('Graphic', ['-', '/'], True) then
     TextTestRunner.RunRegisteredTests(rxbHaltOnFailures)
   else
 {$ENDIF}

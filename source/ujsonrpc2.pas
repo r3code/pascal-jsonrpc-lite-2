@@ -36,12 +36,12 @@ type
   IJsonRpcError = interface
     ['{574043CE-CA33-462F-AF52-49C5B63FF58B}']
     function GetCode: Integer;
-    function GetMessage: String;
+    function GetMessage: string;
     function GetData: ISuperObject;
     function AsJsonObject: ISuperObject;
     // props
     property Code: Integer read GetCode;
-    property Message: String read GetMessage;
+    property Message: string read GetMessage;
     property Data: ISuperObject read GetData;
   end;
 
@@ -58,13 +58,15 @@ type
       params: ISuperObject): TJsonRpcRequestObject;
     class function Notification(const method: string;
       params: ISuperObject): TJsonRpcNotificationObject; overload;
-    class function Notification(const method: string): TJsonRpcNotificationObject;
+    class function Notification(const method: string):
+      TJsonRpcNotificationObject;
       overload;
     class function Success(const id: string;
       resultData: ISuperObject): TJsonRpcSuccessObject; overload;
     class function Error(const id: string;
       errorInfo: IJsonRpcError): TJsonRpcErrorObject; overload;
-    class function Error(errorInfo: IJsonRpcError): TJsonRpcErrorObject; overload;
+    class function Error(errorInfo: IJsonRpcError): TJsonRpcErrorObject;
+      overload;
     class function Parse(const s: string;
       out AParseError: IJsonRpcError): IJsonRpcParsedMessage;
   public
@@ -171,7 +173,7 @@ type
   private
     FCode: Integer;
     FData: ISuperObject;
-    FMessage: String;
+    FMessage: string;
   public
     constructor Create(const code: integer; const message: string); overload;
     constructor Create(const code: integer; const message: string;
@@ -179,12 +181,12 @@ type
     constructor Create(const code: integer; const message: string;
       data: string); overload;
     function GetCode: Integer;
-    function GetMessage: String;
+    function GetMessage: string;
     function GetData: ISuperObject;
     function AsJsonObject: ISuperObject;
   published
     property Code: Integer read GetCode;
-    property Message: String read GetMessage;
+    property Message: string read GetMessage;
     property Data: ISuperObject read GetData;
   end;
 
@@ -201,19 +203,25 @@ const
   FIELD_ERROR_MSG = 'message';
   FIELD_ERROR_DATA = 'data';
 
-  ERROR_INVALID_JSONRPC_VER = 'Invalid JSON-RPC Version. Supported JSON-RPC 2.0 only';
+  ERROR_INVALID_JSONRPC_VER =
+    'Invalid JSON-RPC Version. Supported JSON-RPC 2.0 only';
   ERROR_NO_JSONRPC_FIELD = 'No ''jsonrpc'' field present';
   ERROR_NO_ID_FIELD = 'No ''id'' field present';
   ERROR_NO_METHOD_FIELD = 'No ''method'' field present';
   ERROR_NO_RESULT_FIELD = 'No ''result'' field present';
   ERROR_NO_ERROR_FIELD = 'No ''error'' field present';
-  ERROR_INVALID_REQUEST_ID = 'Invalid Request ''id'', MUST BE not empty string or integer';
-  ERROR_INVALID_REQUEST_ID_TYPE = 'Invalid Request ''id'' data type, it should be string or integer';
-  ERROR_INVALID_ERROR_ID_TYPE = 'Invalid Error ''id'' data type, it should be string or integer';
-  ERROR_INVALID_ERROR_ID = 'Invalid Error ''id'', MUST BE not empty string, integer or null';
+  ERROR_INVALID_REQUEST_ID =
+    'Invalid Request ''id'', MUST BE not empty string or integer';
+  ERROR_INVALID_REQUEST_ID_TYPE =
+    'Invalid Request ''id'' data type, it should be string or integer';
+  ERROR_INVALID_ERROR_ID_TYPE =
+    'Invalid Error ''id'' data type, it should be string or integer';
+  ERROR_INVALID_ERROR_ID =
+    'Invalid Error ''id'', MUST BE not empty string, integer or null';
   ERROR_INVALID_METHOD_NAME = 'Empty ''method'' field';
   ERROR_INVALID_ERROR_OBJ = 'Invalid ''error'' object';
-  ERROR_INVALID_ERROR_CODE = 'Invalid ''error.code'', it MUST BE in the range [-32768..-32000]';
+  ERROR_INVALID_ERROR_CODE =
+    'Invalid ''error.code'', it MUST BE in the range [-32768..-32000]';
   ERROR_INVALID_ERROR_MSG = 'Empty ''error.message''';
 
   PRC_ERR_INVALID_REQUEST = 'Invalid Request';
@@ -286,7 +294,6 @@ begin
   result := TJsonRpcSuccessObject.Create(id, resultData);
 end;
 
-
 // Creates JSON-RPC 2.0 error object
 // @param  {string} id
 // @param  {ISuperObject} error
@@ -314,10 +321,11 @@ end;
 
 // Returns nil if ERROR and AParseError contains error info,
 // else IJsonRpcParsedMessage
+
 class function TJsonRpcMessage.Parse(const s: string;
   out AParseError: IJsonRpcError): IJsonRpcParsedMessage;
 
-  // checks if 'id' field present in JSON
+// checks if 'id' field present in JSON
   function SubIsIdPresent(AJsonObj: ISuperObject): boolean;
   begin
     Result := AJsonObj.AsObject.Exists(FIELD_ID);
@@ -333,7 +341,7 @@ class function TJsonRpcMessage.Parse(const s: string;
   end;
 
   // Checks if 'id' field have valid value
-  function SubIsRequestIdValueValid(AJsonObj: ISuperObject):Boolean;
+  function SubIsRequestIdValueValid(AJsonObj: ISuperObject): Boolean;
   begin
     Result := SubIsRequestIdDefValid(AJsonObj)
       and (Trim(AJsonObj.S[FIELD_ID]) <> S_EMPTY_STR)
@@ -351,11 +359,11 @@ class function TJsonRpcMessage.Parse(const s: string;
   // Checks if 'id' field have valid value for RPC Error Object
   function SubIsErrorIdValueValid(AJsonObj: ISuperObject): Boolean;
   begin
-    Result:=SubIsErrorIdDefValid(AJsonObj)
+    Result := SubIsErrorIdDefValid(AJsonObj)
       and (
-        (Trim(AJsonObj.S[FIELD_ID]) <> S_EMPTY_STR)
-        or
-        ObjectIsNull(AJsonObj.O[FIELD_ID])
+      (Trim(AJsonObj.S[FIELD_ID]) <> S_EMPTY_STR)
+      or
+      ObjectIsNull(AJsonObj.O[FIELD_ID])
       );
   end;
 
@@ -382,26 +390,26 @@ class function TJsonRpcMessage.Parse(const s: string;
   // Checks if 'params' field present in JSON
   function SubIsParamsPresent(AJsonObj: ISuperObject): boolean;
   begin
-    Result:=AJsonObj.AsObject.Exists(FIELD_PARAMS);
+    Result := AJsonObj.AsObject.Exists(FIELD_PARAMS);
   end;
 
   // Checks if 'params' field has valid structure and data type
   function SubIsParamsDefValid(AJsonObj: ISuperObject): boolean;
   begin
-    Result:=SubIsParamsPresent(AJsonObj)
+    Result := SubIsParamsPresent(AJsonObj)
       and (AJsonObj.O[FIELD_PARAMS].DataType in [stArray, stObject]);
   end;
 
   // Checks if 'result' field present in JSON
   function SubIsResultPresent(AJsonObj: ISuperObject): boolean;
   begin
-    Result:=AJsonObj.AsObject.Exists(FIELD_RESULT);
+    Result := AJsonObj.AsObject.Exists(FIELD_RESULT);
   end;
 
   // Checks if 'error' field present in JSON
   function SubIsErrorPresent(AJsonObj: ISuperObject): boolean;
   begin
-    Result:=AJsonObj.AsObject.Exists(FIELD_ERROR);
+    Result := AJsonObj.AsObject.Exists(FIELD_ERROR);
   end;
 
   // Checks if RPC Error object has valid strucure
@@ -410,7 +418,7 @@ class function TJsonRpcMessage.Parse(const s: string;
     errInfo: ISuperObject;
     errCodeDefValid, messageDefValid: boolean;
   begin
-    Result:= SubIsErrorPresent(AJsonObj);
+    Result := SubIsErrorPresent(AJsonObj);
     errInfo := AJsonObj.O[FIELD_ERROR];
     errCodeDefValid := errInfo.AsObject.Exists(FIELD_ERROR_CODE)
       and (errInfo.O[FIELD_ERROR_CODE].DataType in [stInt]);
@@ -427,22 +435,21 @@ class function TJsonRpcMessage.Parse(const s: string;
   end;
 
   // Checks if 'error.message' not empty
-  function SubIsErrorMessageValid(const AMsg: String): boolean;
+  function SubIsErrorMessageValid(const AMsg: string): boolean;
   begin
     Result := (Trim(AMsg) <> S_EMPTY_STR);
   end;
-
 
   // Detects RPC message type by structure ONLY, no value checks here.
   // Do value validation in SubParse* functions.
   function SubGetMessageType(AJsonObj: ISuperObject): TJsonRpcObjectType;
   var
     ItLooksLikeNotification,
-    ItLooksLikeRequest,
-    ItLooksLikeSuccess,
-    ItLooksLikeError: boolean;
+      ItLooksLikeRequest,
+      ItLooksLikeSuccess,
+      ItLooksLikeError: boolean;
   begin
-    Result:=jotInvalid;
+    Result := jotInvalid;
     // MUST have 'method':str and MUST NOT have 'id'
     ItLooksLikeNotification := not SubIsIdPresent(AJsonObj)
       and SubIsMethodDefValid(AJsonObj);
@@ -472,7 +479,7 @@ class function TJsonRpcMessage.Parse(const s: string;
     ItLooksLikeError := SubIsErrorIdDefValid(AJsonObj)
       and SubIsErrorObjDefValid(AJsonObj);
     if ItLooksLikeError then
-     begin
+    begin
       Result := jotError;
       Exit;
     end;
@@ -521,7 +528,7 @@ class function TJsonRpcMessage.Parse(const s: string;
       Exit;
     end;
     // check: value
-    if not  SubIsRequestIdValueValid(AJsonObj) then
+    if not SubIsRequestIdValueValid(AJsonObj) then
     begin
       Result := TJsonRpcError.InvalidRequest(ERROR_INVALID_REQUEST_ID);
       Exit;
@@ -635,7 +642,7 @@ class function TJsonRpcMessage.Parse(const s: string;
     // If NOTIFICATION there is no ID, 'method' MUST be present,
     // 'params' MAY be omitted
     params := nil;
-    AParseError:= SubCheckMethod(AJsonObj, method);
+    AParseError := SubCheckMethod(AJsonObj, method);
     if Assigned(AParseError) then
       Exit;
     // NOTIFICATION FOUND!
@@ -657,7 +664,7 @@ class function TJsonRpcMessage.Parse(const s: string;
     AParseError := SubCheckRequestId(AJsonObj, id);
     if Assigned(AParseError) then
       Exit;
-    AParseError:= SubCheckMethod(AJsonObj, method);
+    AParseError := SubCheckMethod(AJsonObj, method);
     if Assigned(AParseError) then
       Exit;
     // REQUEST FOUND!
@@ -678,7 +685,7 @@ class function TJsonRpcMessage.Parse(const s: string;
     AParseError := SubCheckRequestId(AJsonObj, id);
     if Assigned(AParseError) then
       Exit;
-    AParseError:= SubCheckResult(AJsonObj);
+    AParseError := SubCheckResult(AJsonObj);
     if Assigned(AParseError) then
       Exit;
     // SUCCESS OBJECT FOUND!
@@ -700,7 +707,7 @@ class function TJsonRpcMessage.Parse(const s: string;
     AParseError := SubCheckErrorId(AJsonObj, id);
     if Assigned(AParseError) then
       Exit;
-    AParseError:= SubCheckErrorInfo(AJsonObj);
+    AParseError := SubCheckErrorInfo(AJsonObj);
     if Assigned(AParseError) then
       Exit;
     // ERROR OBJECT FOUND!
@@ -732,10 +739,10 @@ begin
   // header valid parse other parts
   msgType := SubGetMessageType(parsedObj);
   case msgType of
-    jotNotification: parsedMsg:=SubParseNotification(parsedObj, AParseError);
-    jotRequest: parsedMsg:=SubParseRequest(parsedObj,AParseError);
-    jotSuccess: parsedMsg:=SubParseSucess(parsedObj,AParseError);
-    jotError: parsedMsg:=SubParseError(parsedObj,AParseError);
+    jotNotification: parsedMsg := SubParseNotification(parsedObj, AParseError);
+    jotRequest: parsedMsg := SubParseRequest(parsedObj, AParseError);
+    jotSuccess: parsedMsg := SubParseSucess(parsedObj, AParseError);
+    jotError: parsedMsg := SubParseError(parsedObj, AParseError);
   else
     AParseError := TJsonRpcError.InvalidRequest(parsedObj);
     Exit;
@@ -755,7 +762,7 @@ constructor TJsonRpcSuccessObject.Create(const aID: string; AResult:
   ISuperObject);
 begin
   FID := aID;
-  FResult:=AResult;
+  FResult := AResult;
 end;
 
 function TJsonRpcSuccessObject.AsJsonObject: ISuperObject;
@@ -776,14 +783,14 @@ constructor TJsonRpcErrorObject.Create(const AID: string;
   AErrorInfo: IJsonRpcError);
 begin
   Create(AErrorInfo);
-  FID:=AID;
+  FID := AID;
 end;
 
 function TJsonRpcErrorObject.AsJsonObject: ISuperObject;
 begin
   Result := SO();
-  Result.S[FIELD_ID]:=FID;
-  Result.O[FIELD_ERROR]:=ErrorInfo.AsJsonObject;
+  Result.S[FIELD_ID] := FID;
+  Result.O[FIELD_ERROR] := ErrorInfo.AsJsonObject;
 end;
 
 { TJsonRpcParsedMessage }
@@ -817,8 +824,8 @@ constructor TJsonRpcNotificationObject.Create(const AMethod: string;
   AParams: ISuperObject);
 begin
   inherited Create();
-  FMethod:=AMethod;
-  FParams:=AParams;
+  FMethod := AMethod;
+  FParams := AParams;
 end;
 
 constructor TJsonRpcNotificationObject.Create(const aMethod: string);
@@ -845,8 +852,8 @@ end;
 
 function TJsonRpcRequestObject.AsJsonObject: ISuperObject;
 begin
-  Result:=inherited AsJsonObject;
-  Result.S[FIELD_ID]:=FID;
+  Result := inherited AsJsonObject;
+  Result.S[FIELD_ID] := FID;
 end;
 
 { TJsonRpcError }
@@ -919,25 +926,24 @@ end;
 constructor TJsonRpcError.Create(const code: integer;
   const message: string);
 begin
-  FCode:=code;
-  FMessage:=message;
+  FCode := code;
+  FMessage := message;
 end;
 
 function TJsonRpcError.GetCode: Integer;
 begin
-  Result:=FCode;
+  Result := FCode;
 end;
 
 function TJsonRpcError.GetData: ISuperObject;
 begin
-  Result:=FData;
+  Result := FData;
 end;
 
-function TJsonRpcError.GetMessage: String;
+function TJsonRpcError.GetMessage: string;
 begin
-  Result:=FMessage;
+  Result := FMessage;
 end;
-
 
 function TJsonRpcError.AsJsonObject: ISuperObject;
 begin
@@ -954,7 +960,7 @@ constructor TJsonRpcError.Create(const code: integer;
   const message: string; data: ISuperObject);
 begin
   Create(code, message);
-  FData:= data;
+  FData := data;
 end;
 
 constructor TJsonRpcError.Create(const code: integer;
@@ -963,5 +969,5 @@ begin
   Create(code, message, SO(data));
 end;
 
-
 end.
+
