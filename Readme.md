@@ -1,4 +1,4 @@
-# Pascal JSON-RPC lite
+# Pascal JSON-RPC lite 2
 
 Parse and Serialize JSON-RPC2 messages in free-pascal or Delphi application.
 Git Repository: https://github.com/r3code/pascal-jsonrpc-lite-2
