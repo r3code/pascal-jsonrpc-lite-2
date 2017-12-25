@@ -7,7 +7,7 @@ This is an enhanced version of https://github.com/r3code/pascal-jsonrpc-lite
 
 Inspired by https://github.com/teambition/jsonrpc-lite.
 
-**A implementation of [JSON-RPC 2.0 specifications](http://jsonrpc.org/specification)**
+**An implementation of [JSON-RPC 2.0 specifications](http://jsonrpc.org/specification)**
 
 
 ## Dependencies
