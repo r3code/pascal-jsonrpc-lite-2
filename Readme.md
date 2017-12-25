@@ -53,7 +53,7 @@ Realizes IJsonRpcMessage. Returns {IJsonRpcError}.
 Params:
 - `id`: {String}
 - `method`: {String}
-- `params`:  {IJsonRpcMessage}
+- `params`:  {ISuperObject}
 
 Example:
 ```pascal
@@ -74,7 +74,7 @@ Creates a JSON-RPC 2.0 notification object, returns {IJsonRpcMessage}.
 
 Params:
 - `method`: {String}
-- `params`:  {IJsonRpcMessage}
+- `params`:  {ISuperObject}
 
 Example:
 ```pascal
@@ -94,7 +94,7 @@ Creates a JSON-RPC 2.0 success response object, returns {IJsonRpcMessage}.
 
 Params:
 - `id`: {String}
-- `result`:  {IJsonRpcMessage} 
+- `result`:  {ISuperObject} 
 
 Example:
 ```pascal
@@ -114,7 +114,7 @@ Creates a JSON-RPC 2.0 error response object, returns {IJsonRpcMessage}.
 
 Params:
 - `id`: {String}
-- `error`: {IJsonRpcMessage} use TJsonRpcError or it's siblings 
+- `error`: {IJsonRpcError} use TJsonRpcError or it's siblings 
 
 Example:
 ```pascal
@@ -139,8 +139,8 @@ Params:
 - `s`: {String}
 - `err`: {IJsonRpcError}
 
-returns an object of {IJsonRpcParsedMessage} if OK, else `nil` 
-and `err` set to one of IJsonRpcError realizations (TJsonRpcError).
+Returns one of {IJsonRpcParsedMessage} realizations if OK, 
+else `nil` and `err` set to one of {IJsonRpcError} realizations (e.g. TJsonRpcError).
 
 
 ### Enum: TJsonRpcObjectType
@@ -157,7 +157,7 @@ Returns one of {TJsonRpcObjectType}.
 
 #### Method: IJsonRpcParsedMessage.GetMessagePayload
 
-Returns stored ref to IJsonRpcMessage.
+Returns stored ref to {IJsonRpcMessage}.
 
 
 ### Class: TJsonRpcParsedMessage
@@ -166,7 +166,7 @@ Realizes interface {IJsonRpcParsedMessage}.
 
 #### Constructor: TJsonRpcParsedMessage.Create(objType, payload)
 
-Create a TJsonRpcParsedMessage instance.
+Create an instance.
 
 Params:
 - `objType`:  {TJsonRpcObjectType} message format type
@@ -183,7 +183,7 @@ Returns error code as {Integer}.
 
 Returns error message as {String}.
 
-#### Method: IJsonRpcError.GetMessage
+#### Method: IJsonRpcError.GetData
 
 Returns error Data as {ISuperObject}.
 
@@ -204,7 +204,7 @@ Creates an instance.
 Params:
 - `code`:  {Integer}
 - `message`:  {String}
-- `data`: {String|ISuperObject|nil} optional
+- `data`: {ISuperObject} optional
 
 Examples:
 ```pascal
@@ -222,28 +222,28 @@ error =  TJsonRpcError.Create(-32651, 'some error', SO('{ a: 1, extra: "some dat
 Create {TJsonRpcError} object with error code -32600.
 
 Params:
-- `data`: {String|ISuperObject|nil} - extra data
+- `data`: {ISuperObject|nil} - extra data
 
 #### Class Method: TJsonRpcError.MethodNotFound(data)
 
 Create {TJsonRpcError} object with error code -32601.
 
 Params:
-- `data`: {String|ISuperObject|nil} - extra data
+- `data`: {ISuperObject|nil} - extra data
 
 #### Class Method: TJsonRpcError.InvalidParams(data)
 
 Create {TJsonRpcError} object with error code -32602.
 
 Params:
-- `data`: {String|ISuperObject|nil} - extra data
+- `data`: {ISuperObject|nil} - extra data
 
 #### Class Method: TJsonRpcError.InternalError(data)
 
 Create {TJsonRpcError} object with error code  -32603.
 
 Params:
-- `data`: {String|ISuperObject|nil} - extra data
+- `data`: {ISuperObject|nil} - extra data
 
 #### Class Method: TJsonRpcError.ParseError(data)
 
@@ -266,6 +266,8 @@ Params:
 - `method`:  {String}
 - `params`: {TSuperArray|ISuperObject} optional
 
+For TSuperArray use SA() or SO([array, items]).
+
 
 #### Class Method: TJsonRpcNotificationObject.AsJsonObject
 
@@ -284,7 +286,9 @@ Creates an instance.
 Params:
 - `id`:  {String}
 - `method`:  {String}
-- `params`: {Array|ISuperObject} optional
+- `params`: {TSuperArray|ISuperObject} optional
+
+For TSuperArray use SA() or SO([array, items]).
 
 
 #### Class Method: TJsonRpcRequestObject.AsJsonObject
