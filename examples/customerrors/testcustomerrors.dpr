@@ -15,9 +15,9 @@ uses
   TestExtensions,
   GUITestRunner,
   TextTestRunner,
-  ujsonrpc in '..\..\source\ujsonrpc.pas',
   ujsonrpccustomerrors in 'ujsonrpccustomerrors.pas',
-  utestcustomerrors in 'utestcustomerrors.pas';
+  utestcustomerrors in 'utestcustomerrors.pas',
+  ujsonrpc2 in '..\..\source\ujsonrpc2.pas';
 
 {$IFDEF DUNIT_CONSOLE_MODE}
   {$APPTYPE CONSOLE}

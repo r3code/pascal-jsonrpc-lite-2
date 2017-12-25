@@ -16,8 +16,8 @@ uses
   GUITestRunner,
   TextTestRunner,
   testjsonrpc in '..\test\testjsonrpc.pas',
-  ujsonrpc in '..\source\ujsonrpc.pas',
-  testjsonrpcerrors in '..\test\testjsonrpcerrors.pas';
+  testjsonrpcerrors in '..\test\testjsonrpcerrors.pas',
+  ujsonrpc2 in '..\source\ujsonrpc2.pas';
 
 {$IFDEF DUNIT_CONSOLE_MODE}
   {$APPTYPE CONSOLE}

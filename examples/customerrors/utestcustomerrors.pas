@@ -20,7 +20,7 @@ type
 implementation
 
 uses
-  ujsonrpccustomerrors, ujsonrpc, superobject;
+  ujsonrpccustomerrors, ujsonrpc2, superobject;
 
 procedure TTestCustomErrors.TestAuthErrorWithDataObj;
 var

@@ -1,7 +1,7 @@
 //
-// Author: Dmitriy S. Sinyavskiy, 2016
+// Author: Dmitriy S. Sinyavskiy, 2017
 //
-unit ujsonrpc;
+unit ujsonrpc2;
 {$IFDEF FPC}
 {$MODE objfpc}
 {$H+} // make string type AnsiString

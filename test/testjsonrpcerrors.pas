@@ -28,7 +28,7 @@ type
 implementation
 
 uses
-  superobject, ujsonrpc;
+  superobject, ujsonrpc2;
 
 procedure TTestJsonRpcError.Setup;
 begin

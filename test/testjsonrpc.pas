@@ -4,7 +4,7 @@ unit testjsonrpc;
 interface
 
 uses
-  Windows, SysUtils, Classes, TestFramework, TestExtensions, ujsonrpc;
+  Windows, SysUtils, Classes, TestFramework, TestExtensions, ujsonrpc2;
 
 type
   TTestJsonRpc = class(TTestCase)

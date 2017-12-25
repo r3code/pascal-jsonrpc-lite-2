@@ -10,7 +10,7 @@ unit ujsonrpccustomerrors;
 interface
 
 uses
-  Classes, SysUtils, superobject, ujsonrpc;
+  Classes, SysUtils, superobject, ujsonrpc2;
 
 type
 
